@@ -3,7 +3,6 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "./db";
 import * as schema from "./db/schema";
 import { jwt } from "better-auth/plugins";
-import { jwtClient } from "better-auth/client/plugins";
 import { env } from "./lib/env";
 import { nextCookies } from "better-auth/next-js";
 

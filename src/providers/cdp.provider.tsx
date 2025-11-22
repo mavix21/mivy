@@ -3,6 +3,7 @@
 import { CDPReactProvider, type Config, type Theme } from "@coinbase/cdp-react";
 import { env } from "@/lib/env";
 import { CDPHooksProvider } from "@coinbase/cdp-hooks";
+import { authClient } from "@/lib/auth-client";
 
 const config: Config = {
   projectId: env.NEXT_PUBLIC_CDP_PROJECT_ID,
@@ -42,7 +43,21 @@ const theme: Partial<Theme> = {
 export function CDPProvider({ children }: { children: React.ReactNode }) {
   return (
     <CDPReactProvider config={config} theme={theme}>
-      <CDPHooksProvider config={{ projectId: env.NEXT_PUBLIC_CDP_PROJECT_ID }}>
+      <CDPHooksProvider
+        config={{
+          projectId: env.NEXT_PUBLIC_CDP_PROJECT_ID,
+          customAuth: {
+            getJwt: async () => {
+              const { data, error } = await authClient.token();
+              if (error || !data?.token) {
+                console.error("Error fetching auth token", error);
+                throw new Error("Unable to fetch auth token", { cause: error });
+              }
+              return data.token;
+            },
+          },
+        }}
+      >
         {children}
       </CDPHooksProvider>
     </CDPReactProvider>

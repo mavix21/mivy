@@ -9,6 +9,8 @@ export const env = createEnv({
     NETWORK: z.enum(["base-sepolia", "base"]).default("base-sepolia"),
     DATABASE_URL: z.string(),
     URL: z.string().url().default("http://localhost:3000"),
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
   },
   client: {
     NEXT_PUBLIC_CDP_PROJECT_ID: z.string(),
@@ -28,6 +30,8 @@ export const env = createEnv({
       : undefined,
     NEXT_PUBLIC_CDP_PROJECT_ID: process.env.NEXT_PUBLIC_CDP_PROJECT_ID,
     DATABASE_URL: process.env.DATABASE_URL,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   },
 
   /**

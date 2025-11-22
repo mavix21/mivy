@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Mono, Rethink_Sans } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { CDPProvider } from "@/providers/cdp.provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmMono = DM_Mono({
   subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["300", "400", "500"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const rethinkSans = Rethink_Sans({
   subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -28,11 +30,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
+        className={`${dmMono.className} ${rethinkSans.className} antialiased h-full`}
       >
         <CDPProvider>
           <div className="size-full flex flex-col">
-            <header className={`${geistSans.className} border-b border-black`}>
+            <header className={`${dmMono.style} border-b border-black`}>
               <div className="flex flex-col gap-2 w-full">
                 <div className="flex flex-row gap-2 text-xl font-bold items-center justify-center">
                   <Link

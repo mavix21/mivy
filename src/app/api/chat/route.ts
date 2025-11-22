@@ -1,4 +1,5 @@
 import { convertToModelMessages, stepCountIs, streamText, UIMessage } from "ai";
+import { ollama } from "ollama-ai-provider-v2";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { experimental_createMCPClient as createMCPClient } from "ai";
 import { withPayment } from "x402-mcp";
@@ -22,7 +23,10 @@ export const POST = async (request: Request) => {
   const tools = await mcpClient.tools();
 
   const result = streamText({
-    model,
+    model:
+      model === "gpt-oss:20b" || model.startsWith("gpt-oss")
+        ? ollama(model)
+        : model,
     tools: {
       ...tools,
       "hello-local": tool({

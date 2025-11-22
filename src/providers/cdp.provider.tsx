@@ -49,6 +49,7 @@ export function CDPProvider({ children }: { children: React.ReactNode }) {
           customAuth: {
             getJwt: async () => {
               const { data, error } = await authClient.token();
+              console.log("Fetched auth token", { data, error });
               if (error || !data?.token) {
                 console.error("Error fetching auth token", error);
                 throw new Error("Unable to fetch auth token", { cause: error });

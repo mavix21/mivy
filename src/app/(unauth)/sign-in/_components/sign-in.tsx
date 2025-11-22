@@ -41,7 +41,9 @@ export default function SignInScreen() {
 
   useEffect(() => {
     if (!isPending && session) {
-      authenticateWithJWT();
+      authenticateWithJWT().catch((error) => {
+        console.error("Error authenticating with JWT", error);
+      });
     }
   }, [session, isPending, authenticateWithJWT]);
 

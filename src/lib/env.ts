@@ -9,6 +9,9 @@ export const env = createEnv({
     NETWORK: z.enum(["base-sepolia", "base"]).default("base-sepolia"),
     URL: z.string().url().default("http://localhost:3000"),
   },
+  client: {
+    NEXT_PUBLIC_CDP_PROJECT_ID: z.string(),
+  },
 
   /**
    * What object holds the environment variables at runtime. This is usually
@@ -22,6 +25,7 @@ export const env = createEnv({
     URL: process.env.VERCEL_PROJECT_PRODUCTION_URL
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
       : undefined,
+    NEXT_PUBLIC_CDP_PROJECT_ID: process.env.NEXT_PUBLIC_CDP_PROJECT_ID,
   },
 
   /**

@@ -12,7 +12,6 @@ const config: Config = {
   },
   appName: "Mivy",
   appLogoUrl: "",
-  authMethods: ["oauth:google", "oauth:apple", "oauth:x", "email"],
   showCoinbaseFooter: true,
   customAuth: {
     getJwt: async () => {

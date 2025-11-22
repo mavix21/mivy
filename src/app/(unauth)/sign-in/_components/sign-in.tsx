@@ -18,7 +18,7 @@ import {
 } from "@coinbase/cdp-hooks";
 import { AuthButton } from "@coinbase/cdp-react/components/AuthButton";
 import { Wallet } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Sign in screen
@@ -27,25 +27,52 @@ export default function SignInScreen() {
   const { authenticateWithJWT } = useAuthenticateWithJWT();
   const { signIn, useSession } = authClient;
   const { isPending, data: session } = useSession();
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const handleGoogleSignIn = async () => {
-    // User will be redirected to Google to complete their login
-    // After login, they will be redirected back to your app, and the login
-    // process will be completed automatically by the SDK
-    // await signInWithOAuth("google");
-    await signIn.social({
+    const result = await signIn.social({
       provider: "google",
       callbackURL: "/dashboard",
     });
+    console.log("Google sign-in result:", result);
   };
 
   useEffect(() => {
-    if (session) {
-      authenticateWithJWT().catch((error) => {
-        console.error("Error authenticating with JWT", error);
-      });
+  const run = async () => {
+    if (session && !isPending && !isAuthenticating) {
+      console.log("Session detected:", session);
+      setIsAuthenticating(true);
+      
+      try {
+        const { data, error } = await authClient.token();
+        
+        if (error || !data?.token) {
+          console.error("No valid token available:", error);
+          setIsAuthenticating(false);
+          return;
+        }
+
+        // DECODE THE JWT TO SEE WHAT'S IN IT
+        const payload = JSON.parse(atob(data.token.split('.')[1]));
+        console.log("JWT Payload:", payload);
+        console.log("Required claims check:", {
+          hasIss: !!payload.iss,
+          hasSub: !!payload.sub,
+          hasExp: !!payload.exp,
+          hasIat: !!payload.iat
+        });
+
+        const result = await authenticateWithJWT();
+        console.log("Authenticated with JWT:", result);
+      } catch (error) {
+        console.error("Authentication failed:", error);
+      } finally {
+        setIsAuthenticating(false);
+      }
     }
-  }, [session, authenticateWithJWT]);
+  };
+  run();
+}, [session, isPending, authenticateWithJWT, isAuthenticating]);
 
   return (
     <div className="flex min-h-[60vh] w-full items-center justify-center p-4">

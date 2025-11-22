@@ -1,6 +1,5 @@
 "use client";
 
-import { AuthButton } from "@coinbase/cdp-react/components/AuthButton";
 import { useIsSignedIn } from "@coinbase/cdp-hooks";
 import SignInScreen from "./_components/sign-in";
 

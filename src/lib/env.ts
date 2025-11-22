@@ -7,8 +7,10 @@ export const env = createEnv({
     CDP_API_KEY_ID: z.string(),
     CDP_API_KEY_SECRET: z.string(),
     NETWORK: z.enum(["base-sepolia", "base"]).default("base-sepolia"),
-    DATABASE_URL: z.string(),
+    POSTGRES_URL: z.string(),
     URL: z.string().url().default("http://localhost:3000"),
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
   },
   client: {
     NEXT_PUBLIC_CDP_PROJECT_ID: z.string(),
@@ -27,7 +29,9 @@ export const env = createEnv({
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
       : undefined,
     NEXT_PUBLIC_CDP_PROJECT_ID: process.env.NEXT_PUBLIC_CDP_PROJECT_ID,
-    DATABASE_URL: process.env.DATABASE_URL,
+    POSTGRES_URL: process.env.POSTGRES_URL,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   },
 
   /**

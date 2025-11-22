@@ -7,7 +7,7 @@ export const env = createEnv({
     CDP_API_KEY_ID: z.string(),
     CDP_API_KEY_SECRET: z.string(),
     NETWORK: z.enum(["base-sepolia", "base"]).default("base-sepolia"),
-    DATABASE_URL: z.string().url(),
+    DATABASE_URL: z.string(),
     URL: z.string().url().default("http://localhost:3000"),
   },
   client: {
@@ -27,7 +27,7 @@ export const env = createEnv({
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
       : undefined,
     NEXT_PUBLIC_CDP_PROJECT_ID: process.env.NEXT_PUBLIC_CDP_PROJECT_ID,
-    DATABASE_URL: process.env.POSTGRES_URL,
+    DATABASE_URL: process.env.DATABASE_URL,
   },
 
   /**

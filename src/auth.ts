@@ -17,5 +17,13 @@ export const auth = betterAuth({
     provider: "pg", // or "mysql", "sqlite"
     schema,
   }),
-  plugins: [nextCookies(), jwt()],
+  plugins: [nextCookies(), jwt(
+    {
+      jwks: {
+        keyPairConfig: {
+          alg: 'RS256',
+        },
+      }
+    }
+)],
 });

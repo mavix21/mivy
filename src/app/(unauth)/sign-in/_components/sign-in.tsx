@@ -40,12 +40,12 @@ export default function SignInScreen() {
   };
 
   useEffect(() => {
-    if (!isPending && session) {
+    if (session) {
       authenticateWithJWT().catch((error) => {
         console.error("Error authenticating with JWT", error);
       });
     }
-  }, [session, isPending, authenticateWithJWT]);
+  }, [session, authenticateWithJWT]);
 
   return (
     <div className="flex min-h-[60vh] w-full items-center justify-center p-4">

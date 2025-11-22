@@ -14,6 +14,17 @@ const config: Config = {
   appLogoUrl: "",
   authMethods: ["oauth:google", "oauth:apple", "oauth:x", "email"],
   showCoinbaseFooter: true,
+  customAuth: {
+    getJwt: async () => {
+      const { data, error } = await authClient.token();
+      console.log("Fetched auth token", { data, error });
+      if (error || !data?.token) {
+        console.error("Error fetching auth token", error);
+        throw new Error("Unable to fetch auth token", { cause: error });
+      }
+      return data.token;
+    },
+  },
 };
 
 const theme: Partial<Theme> = {
@@ -46,17 +57,6 @@ export function CDPProvider({ children }: { children: React.ReactNode }) {
       <CDPHooksProvider
         config={{
           projectId: env.NEXT_PUBLIC_CDP_PROJECT_ID,
-          customAuth: {
-            getJwt: async () => {
-              const { data, error } = await authClient.token();
-              console.log("Fetched auth token", { data, error });
-              if (error || !data?.token) {
-                console.error("Error fetching auth token", error);
-                throw new Error("Unable to fetch auth token", { cause: error });
-              }
-              return data.token;
-            },
-          },
         }}
       >
         {children}

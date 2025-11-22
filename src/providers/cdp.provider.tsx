@@ -1,7 +1,8 @@
-"use client"
+"use client";
 
 import { CDPReactProvider, type Config, type Theme } from "@coinbase/cdp-react";
 import { env } from "@/lib/env";
+import { CDPHooksProvider } from "@coinbase/cdp-hooks";
 
 const config: Config = {
   projectId: env.NEXT_PUBLIC_CDP_PROJECT_ID,
@@ -10,9 +11,9 @@ const config: Config = {
   },
   appName: "Mivy",
   appLogoUrl: "",
-  authMethods: ["oauth:google","oauth:apple","oauth:x","email"],
+  authMethods: ["oauth:google", "oauth:apple", "oauth:x", "email"],
   showCoinbaseFooter: true,
-}
+};
 
 const theme: Partial<Theme> = {
   "colors-bg-default": "#0a0b0d",
@@ -29,19 +30,21 @@ const theme: Partial<Theme> = {
   "colors-fg-warning": "#ed702f",
   "colors-line-default": "#252629",
   "colors-line-heavy": "#5a5d6a",
-  "borderRadius-cta": "var(--cdp-web-borderRadius-full)",
+  "borderRadius-cta": "var(--cdp-web-borderRadus-full)",
   "borderRadius-link": "var(--cdp-web-borderRadius-full)",
   "borderRadius-input": "var(--cdp-web-borderRadius-lg)",
   "borderRadius-select-trigger": "var(--cdp-web-borderRadius-lg)",
   "borderRadius-select-list": "var(--cdp-web-borderRadius-lg)",
   "borderRadius-modal": "var(--cdp-web-borderRadius-xl)",
-  "font-family-sans": "'Rethink Sans', 'Rethink Sans Fallback'"
-}
+  "font-family-sans": "'Rethink Sans', 'Rethink Sans Fallback'",
+};
 
 export function CDPProvider({ children }: { children: React.ReactNode }) {
   return (
     <CDPReactProvider config={config} theme={theme}>
-      {children}
+      <CDPHooksProvider config={{ projectId: env.NEXT_PUBLIC_CDP_PROJECT_ID }}>
+        {children}
+      </CDPHooksProvider>
     </CDPReactProvider>
   );
 }

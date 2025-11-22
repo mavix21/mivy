@@ -11,30 +11,39 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { authClient } from "@/lib/auth-client";
-import { useCurrentUser, useSignInWithOAuth } from "@coinbase/cdp-hooks";
+import {
+  useAuthenticateWithJWT,
+  useCurrentUser,
+  useSignInWithOAuth,
+} from "@coinbase/cdp-hooks";
 import { AuthButton } from "@coinbase/cdp-react/components/AuthButton";
 import { Wallet } from "lucide-react";
+import { useEffect } from "react";
 
 /**
  * Sign in screen
  */
 export default function SignInScreen() {
-  const { signInWithOAuth } = useSignInWithOAuth();
-  const { currentUser } = useCurrentUser();
+  const { authenticateWithJWT } = useAuthenticateWithJWT();
+  const { signIn, useSession } = authClient;
+  const { isPending, data: session } = useSession();
 
   const handleGoogleSignIn = async () => {
     // User will be redirected to Google to complete their login
     // After login, they will be redirected back to your app, and the login
     // process will be completed automatically by the SDK
     // await signInWithOAuth("google");
-    await authClient.signIn.social({
+    await signIn.social({
       provider: "google",
       callbackURL: "/dashboard",
     });
-
-    console.log("Current user");
-    console.log({ currentUser });
   };
+
+  useEffect(() => {
+    if (!isPending && session) {
+      authenticateWithJWT();
+    }
+  }, [session, isPending, authenticateWithJWT]);
 
   return (
     <div className="flex min-h-[60vh] w-full items-center justify-center p-4">

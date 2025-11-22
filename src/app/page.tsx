@@ -40,6 +40,10 @@ import {
 
 const models = [
   {
+    name: "Ollama (GPT-OSS 20B)",
+    value: "gpt-oss:20b",
+  },
+  {
     name: "GPT 4o",
     value: "openai/gpt-4o",
   },

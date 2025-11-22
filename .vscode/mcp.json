@@ -1,0 +1,26 @@
+{
+  "servers": {
+    "better-auth": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@better-auth/cli@1.3.34"],
+      "envFile": "${input:envFile}",
+      "env": {
+        "PORT": 3000,
+        "AUTH_SECRET": "${input:additionalEnv}"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "id": "envFile",
+      "type": "promptString",
+      "description": "Path to .env file"
+    },
+    {
+      "id": "additionalEnv",
+      "type": "promptString",
+      "description": "Additional environment variables (comma separated key=value pairs)"
+    }
+  ]
+}
